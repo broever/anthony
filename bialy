@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ARIZMENDI_LAKESHORE='https://myarizmendiorder.square.site/'
+bialy=$(mktemp)
+status=$(curl "${ARIZMENDI_LAKESHORE}app/store/api/v13/editor/users/131065635/sites/151853421508327866/products/113" \
+  --header 'Accept: application/json' \
+  --header "Referer: ${ARIZMENDI_LAKESHORE}" \
+  --header 'Accept-Language: en-US,en;q=0.9' \
+  --compressed \
+  --silent \
+  --show-error \
+  --write-out "%{http_code}" \
+  --output "${bialy}")
+
+[ "${status}" -ne 200 ] && {
+  echo "ERROR: all due respect, you got no fucking idea what it’s like to be number one"
+  exit 2
+}
+
+[ "$(jq -r '.data.name' "$bialy")" != "Bialy" ] && {
+  echo "ERROR: there's an old italian saying: you fuck up once, you lose two teeth"
+  exit 2
+}
+
+[ "$(jq -r '.data.inventory.total' "$bialy")" -eq 0 ] && {
+  echo "ERROR: come on, i just finished my bialy"
+  exit 2
+}
+
+echo "log off. that cookies shit makes me nervous"
