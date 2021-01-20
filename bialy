@@ -26,7 +26,8 @@ status=$(curl "${ARIZMENDI_LAKESHORE}app/store/api/v13/editor/users/131065635/si
 
 [ "$(jq -r '.data.inventory.total' "$bialy")" -eq 0 ] && {
   echo "ERROR: come on, i just finished my bialy"
-  exit 2
+  # https://www.imdb.com/title/tt0995838/
+  exit 20
 }
 
 echo "log off. that cookies shit makes me nervous"
